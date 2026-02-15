@@ -1,0 +1,191 @@
+.gpa-wrapper {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.gpa-result-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-8);
+}
+
+.gpa-result-card:hover {
+    transform: none;
+}
+
+.gpa-result-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-xl);
+    background: #EDE9FE;
+    color: #8B5CF6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-4);
+}
+
+.gpa-result-value {
+    font-size: 56px;
+    font-weight: var(--font-weight-extrabold);
+    line-height: 1;
+}
+
+.gpa-result-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-2);
+}
+
+.gpa-result-credits {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-top: var(--space-1);
+}
+
+.gpa-courses {
+    padding: var(--space-6);
+}
+
+.gpa-courses:hover {
+    transform: none;
+}
+
+.gpa-courses-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.gpa-courses-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+}
+
+.gpa-table-header {
+    display: grid;
+    grid-template-columns: 1fr 80px 120px 36px;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-semibold);
+}
+
+.gpa-course-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 120px 36px;
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.gpa-course-name,
+.gpa-course-credits,
+.gpa-course-grade {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    background: var(--color-bg);
+}
+
+.gpa-course-name:focus,
+.gpa-course-credits:focus,
+.gpa-course-grade:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-lighter);
+}
+
+.gpa-remove-btn {
+    border: none;
+    background: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: var(--space-1);
+}
+
+.gpa-remove-btn:hover {
+    color: var(--color-danger);
+}
+
+.gpa-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    width: 100%;
+    padding: var(--space-3);
+    margin-top: var(--space-3);
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.gpa-add-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.gpa-scale {
+    padding: var(--space-5);
+}
+
+.gpa-scale:hover {
+    transform: none;
+}
+
+.gpa-scale-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-3);
+}
+
+.gpa-scale-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+}
+
+.gpa-scale-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+}
+
+.gpa-scale-label {
+    font-weight: var(--font-weight-semibold);
+}
+
+.gpa-scale-value {
+    color: var(--color-text-muted);
+}
+
+@media (max-width: 600px) {
+
+    .gpa-table-header,
+    .gpa-course-row {
+        grid-template-columns: 1fr 60px 90px 30px;
+    }
+
+    .gpa-scale-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
