@@ -40,7 +40,7 @@ export default function Navbar() {
             <div className="navbar-inner container">
                 <Link to="/" className="navbar-brand" onClick={() => setIsOpen(false)}>
                     <div className="navbar-logo">
-                        <img src="/logo.png" alt="StudyHub Logo" className="navbar-logo-img" />
+                        <img src={`${import.meta.env.BASE_URL}logo.png`} alt="StudyHub Logo" className="navbar-logo-img" />
                     </div>
                     <span className="navbar-title">StudyHub</span>
                 </Link>
