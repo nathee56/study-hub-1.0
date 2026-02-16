@@ -12,6 +12,7 @@ const navLinks = [
     { to: '/tools', label: 'เครื่องมือ' },
     { to: '/exam', label: 'โซนสอบ' },
     { to: '/com-competency', label: 'ติวสอบคอมฯ' },
+    { to: '/qa-submit', label: 'ประกันคุณภาพ' },
     { to: '/links', label: 'ลิงก์' },
     { to: '/community', label: 'ชุมชน' },
 ];

@@ -22,6 +22,7 @@ import LinksPage from './pages/LinksPage';
 import Profile from './pages/Profile';
 import PlaceholderPage from './pages/PlaceholderPage';
 import ComputerExamPage from './pages/ComputerExamPage';
+import QualityAssurance from './pages/QualityAssurance';
 import { Info, Bell } from 'lucide-react';
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
                     <Route path="/tools/notes" element={<QuickNotes />} />
                     <Route path="/exam" element={<ExamZone />} />
                     <Route path="/com-competency" element={<ComputerExamPage />} />
+                    <Route path="/qa-submit" element={<QualityAssurance />} />
                     <Route path="/community" element={<Community />} />
                     <Route path="/links" element={<LinksPage />} />
                     <Route path="/profile" element={<Profile />} />
