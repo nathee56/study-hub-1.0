@@ -11,7 +11,7 @@ const typeIcons = {
 };
 
 const typeColors = {
-    'สรุป': { bg: '#DBEAFE', color: '#2563EB' },
+    'สรุป': { bg: '#EFF6FF', color: '#2563EB' },
     'สูตร': { bg: '#EDE9FE', color: '#7C3AED' },
     'บันทึก': { bg: '#FEF3C7', color: '#D97706' },
 };

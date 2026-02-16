@@ -37,7 +37,7 @@ const tools = [
         icon: 'StickyNote',
         description: 'จดและจัดระเบียบบันทึกการเรียนได้ทันที',
         link: '/tools',
-        color: '#EC4899'
+        color: '#E91E63'
     }
 ];
 

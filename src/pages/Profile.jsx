@@ -97,7 +97,7 @@ export default function Profile() {
                 {/* Stats Overview */}
                 <div className="profile-stats-grid">
                     <div className="profile-stat card">
-                        <div className="profile-stat-icon" style={{ background: '#DBEAFE', color: '#2563EB' }}>
+                        <div className="profile-stat-icon" style={{ background: '#EFF6FF', color: '#2563EB' }}>
                             <BookOpen size={22} />
                         </div>
                         <div className="profile-stat-info">

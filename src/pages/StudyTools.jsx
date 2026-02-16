@@ -35,7 +35,7 @@ const toolsList = [
         title: 'จดบันทึกด่วน',
         description: 'จดและจัดระเบียบบันทึกการเรียน เลือกสีป้ายกำกับ ค้นหาได้',
         icon: StickyNote,
-        color: '#EC4899',
+        color: '#E91E63',
         bgColor: '#FCE7F3',
         link: '/tools/notes'
     }

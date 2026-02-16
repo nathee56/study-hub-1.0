@@ -16,7 +16,9 @@ export const computerExamData = {
             title: "แนะนำการสอบ & เกณฑ์การวัดผล",
             description: "ทำความเข้าใจโครงสร้างข้อสอบ เกณฑ์การสอบผ่าน และเทคนิคการทำข้อสอบ",
             icon: <InfoIconComponent />,
+            image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800",
             duration: "15 นาที",
+            color: "#6366F1",
             content: [
                 { type: 'pdf', title: 'คู่มือการสอบ.pdf', url: '#' },
                 { type: 'video', title: 'แนะนำการสอบ (Video)', url: '#' }
@@ -27,7 +29,9 @@ export const computerExamData = {
             title: "การใช้งาน Canva เพื่อการออกแบบ",
             description: "เรียนรู้การใช้งาน Canva เบื้องต้นจนถึงระดับสูงสำหรับการสร้างสื่อนำเสนอและกราฟิก",
             icon: <PaletteIconComponent />,
+            image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&q=80&w=800",
             duration: "2 ชั่วโมง",
+            color: "#E91E63",
             content: [
                 { type: 'link', title: 'สไลด์ประกอบการสอน (Canva Slides)', url: 'https://www.canva.com/design/DAHBTWqE1rQ/RcT_KzAJtffqN1xsEkfk9g/view?utm_content=DAHBTWqE1rQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hdf6c972188', isExternal: true },
                 { type: 'link', title: 'โจทย์แบบฝึกหัด (Canva Assignment)', url: 'https://www.canva.com/design/DAHBTVUKT2g/J5VgEOMuG0NSaVJR93WPIA/view?utm_content=DAHBTVUKT2g&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc024cd23bc', isExternal: true }
@@ -38,7 +42,9 @@ export const computerExamData = {
             title: "Microsoft Word เพื่อการทำงานเอกสาร",
             description: "เทคนิคการจัดหน้าเอกสาร การทำสารบัญอัตโนมัติ และการใช้งานเครื่องมือขั้นสูง",
             icon: <FileTextIconComponent />,
+            image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800",
             duration: "1.5 ชั่วโมง",
+            color: "#2563EB",
             content: [
                 { type: 'pdf', title: 'เอกสารประกอบการเรียน Word.pdf', url: '#' },
                 { type: 'quiz', title: 'แบบฝึกหัดท้ายบท', url: '/exam' }
@@ -49,7 +55,9 @@ export const computerExamData = {
             title: "Microsoft Excel & PowerPoint",
             description: "การใช้สูตรคำนวณพื้นฐานและการสร้างงานนำเสนออย่างมืออาชีพ",
             icon: <TableIconComponent />,
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
             duration: "2 ชั่วโมง",
+            color: "#10B981",
             content: [
                 { type: 'pdf', title: 'สูตร Excel ที่ควรรู้.pdf', url: '#' },
                 { type: 'pdf', title: 'เทคนิค PowerPoint 365.pdf', url: '#' }

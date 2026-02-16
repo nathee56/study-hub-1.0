@@ -133,7 +133,7 @@
 }
 
 .community-post-type--prompt {
-    background: #DBEAFE;
+    background: #DCFCE7;
     color: #2563EB;
 }
 
@@ -193,7 +193,7 @@
 }
 
 .community-like-btn:hover {
-    background: #DBEAFE;
+    background: #DCFCE7;
     color: var(--color-primary);
 }
 

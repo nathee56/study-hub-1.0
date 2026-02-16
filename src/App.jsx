@@ -23,11 +23,13 @@ import Profile from './pages/Profile';
 import PlaceholderPage from './pages/PlaceholderPage';
 import ComputerExamPage from './pages/ComputerExamPage';
 import QualityAssurance from './pages/QualityAssurance';
+import MemorialPopup from './components/MemorialPopup';
 import { Info, Bell } from 'lucide-react';
 
 function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <MemorialPopup />
       <AuthProvider>
         <BookmarkProvider>
           <SearchProvider>

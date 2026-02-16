@@ -95,7 +95,7 @@ export default function ExamZone() {
 
                     <div className="exam-subject-grid">
                         <button className="exam-subject-card card" onClick={() => startQuiz('')}>
-                            <div className="exam-subject-icon" style={{ background: '#DBEAFE', color: '#2563EB' }}>
+                            <div className="exam-subject-icon" style={{ background: '#EFF6FF', color: '#2563EB' }}>
                                 <Target size={28} />
                             </div>
                             <h3>สุ่มจากทุกวิชา</h3>

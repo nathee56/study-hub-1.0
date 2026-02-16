@@ -20,7 +20,7 @@ const quickAccess = [
     { icon: Wrench, label: 'เครื่องมือ', link: '/tools', color: '#8B5CF6' },
     { icon: GraduationCap, label: 'โซนสอบ', link: '/exam', color: '#F59E0B' },
     { icon: Link2, label: 'ลิงก์', link: '/links', color: '#06B6D4' },
-    { icon: Users, label: 'ชุมชน', link: '/community', color: '#EC4899' },
+    { icon: Users, label: 'ชุมชน', link: '/community', color: '#E91E63' },
 ];
 
 const typeIcons = {
