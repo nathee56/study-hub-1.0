@@ -46,8 +46,8 @@
   --glass-border-light: 1px solid rgba(255, 255, 255, 0.6);
   --glass-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.9), inset 1px 0 1px rgba(255, 255, 255, 0.4);
 
-  /* --- Typography --- */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* --- Typography (Apple Style) --- */
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -56,15 +56,20 @@
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
+  --font-size-5xl: 3.5rem;
+  /* Slightly larger for hero */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
-  --line-height-tight: 1.25;
+  --line-height-tight: 1.15;
+  /* Apple headers are tighter */
   --line-height-normal: 1.5;
-  --line-height-relaxed: 1.75;
+  --line-height-relaxed: 1.6;
+  /* A bit more readable for body */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0em;
 
   /* --- Spacing --- */
   --space-1: 0.25rem;
@@ -88,14 +93,14 @@
   --radius-2xl: 1rem;
   --radius-full: 9999px;
 
-  /* --- Shadows (Deep 3D) --- */
-  --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -1px rgba(15, 23, 42, 0.03);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
-  --shadow-card: 0 16px 32px -4px rgba(0, 0, 0, 0.1), 0 8px 16px -4px rgba(0, 0, 0, 0.05);
-  --shadow-card-hover: 0 24px 48px -4px rgba(0, 0, 0, 0.15), 0 12px 24px -4px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+  /* --- Shadows (Apple Deep & Soft) --- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.08), 0 12px 24px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 16px 40px rgba(0, 0, 0, 0.06), 0 8px 16px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 32px 64px rgba(0, 0, 0, 0.1), 0 16px 32px rgba(0, 0, 0, 0.06);
+  --shadow-glow: 0 0 24px rgba(59, 130, 246, 0.2);
 
   /* --- Transitions --- */
   --transition-fast: 120ms ease;
@@ -166,12 +171,15 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Apple typography crispness */
 }
 
 body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
-  line-height: var(--line-height-normal);
+  line-height: var(--line-height-relaxed);
+  /* More relaxed for body reading */
   color: var(--color-text-primary);
   background-color: var(--color-bg);
   min-height: 100vh;
@@ -232,20 +240,28 @@ select {
 }
 
 .section {
-  padding: var(--space-16) 0;
+  padding: var(--space-20) 0;
+  /* More breathing room (Apple style) */
 }
 
 .section-title {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-3xl);
+  /* Slightly larger section titles */
   font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  /* Tighter spacing for headlines */
   color: var(--color-text-primary);
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
+  line-height: var(--line-height-tight);
 }
 
 .section-subtitle {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-lg);
+  /* Slightly larger subtitles */
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-8);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-10);
+  /* More space below headers */
 }
 
 .text-gradient {
@@ -364,6 +380,10 @@ select {
   border: var(--glass-border);
   box-shadow: var(--shadow-card), var(--glass-highlight);
   transition: all var(--transition-base);
+
+  /* GPU Acceleration for backdrop-filter scroll perf */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .card:hover {
@@ -489,18 +509,22 @@ select {
 .bg-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px) contrast(1.2);
+  filter: blur(120px);
+  /* Removed contrast(1.2) as it adds to GPU strain */
   z-index: -1;
-  opacity: 0.8;
-  /* Increased base opacity for vibrancy */
+  opacity: 0.6;
+  /* Balanced opacity now that hard-light is gone */
   animation: pulseGlow 20s ease-in-out infinite alternate;
-  mix-blend-mode: hard-light;
+
+  /* Performance Hacks (GPU Acceleration) */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 [data-theme='dark'] .bg-blob {
-  mix-blend-mode: screen;
-  opacity: 0.5;
-  /* Increased dark mode opacity */
+  opacity: 0.4;
 }
 
 /* Global Mesh BG Wrapper */

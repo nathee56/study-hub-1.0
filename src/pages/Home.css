@@ -35,9 +35,9 @@
 .hero-title {
     font-size: var(--font-size-5xl);
     font-weight: var(--font-weight-extrabold);
-    line-height: 1.1;
+    line-height: var(--line-height-tight);
     color: var(--color-text-primary);
-    letter-spacing: -0.02em;
+    letter-spacing: var(--letter-spacing-tight);
 }
 
 .hero-title-accent {
@@ -49,9 +49,11 @@
 }
 
 .hero-subtitle {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
+    /* Slightly larger for readability */
     color: var(--color-text-secondary);
-    max-width: 540px;
+    max-width: 580px;
+    /* Slightly wider */
     line-height: var(--line-height-relaxed);
 }
 
