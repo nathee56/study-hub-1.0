@@ -36,11 +36,6 @@ export default function Home() {
         <div className="home-page">
             {/* Hero */}
             <section className="hero-section" id="hero">
-                <div className="hero-bg">
-                    <div className="hero-circle hero-circle-1" />
-                    <div className="hero-circle hero-circle-2" />
-                    <div className="hero-circle hero-circle-3" />
-                </div>
                 <div className="container hero-content">
                     <span className="hero-badge">
                         <Zap size={14} /> ศูนย์รวมการเรียนรู้

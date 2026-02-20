@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Menu, X, Bookmark, User, LogOut, LogIn } from 'lucide-react';
+import { Menu, X, Bookmark, User, LogOut, LogIn, Moon, Sun } from 'lucide-react';
 import { useBookmarks } from '../context/BookmarkContext';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
 
 const navLinks = [
@@ -11,7 +12,6 @@ const navLinks = [
     { to: '/learning', label: 'คลังความรู้' },
     { to: '/tools', label: 'เครื่องมือ' },
     { to: '/exam', label: 'โซนสอบ' },
-    { to: '/com-competency', label: 'ติวสอบคอมฯ' },
     { to: '/qa-submit', label: 'ประกันคุณภาพ' },
     { to: '/links', label: 'ลิงก์' },
     { to: '/community', label: 'ชุมชน' },
@@ -22,6 +22,7 @@ export default function Navbar() {
     const [showProfile, setShowProfile] = useState(false);
     const { bookmarks } = useBookmarks();
     const { user, loginWithGoogle, logout } = useAuth();
+    const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
     const profileRef = useRef(null);
 
@@ -61,6 +62,18 @@ export default function Navbar() {
                 </div>
 
                 <div className="navbar-actions">
+                    <button
+                        className="navbar-theme-btn"
+                        onClick={toggleTheme}
+                        aria-label="เปลี่ยนธีม สว่าง/มืด"
+                    >
+                        {theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) ? (
+                            <Sun size={20} />
+                        ) : (
+                            <Moon size={20} />
+                        )}
+                    </button>
+
                     <Link to="/bookmarks" className="navbar-bookmark-btn" aria-label="บุ๊คมาร์ค">
                         <Bookmark size={20} />
                         {bookmarks.length > 0 && (

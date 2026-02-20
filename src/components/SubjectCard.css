@@ -36,8 +36,8 @@
 .subject-card-desc {
     font-size: var(--font-size-sm);
     color: var(--color-text-secondary);
-    margin-bottom: var(--space-2);
-    line-height: var(--line-height-normal);
+    margin-bottom: var(--space-3);
+    line-height: var(--line-height-relaxed);
 }
 
 .subject-card-count {
