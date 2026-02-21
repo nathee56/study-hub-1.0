@@ -552,36 +552,35 @@
 
 .navbar-mobile-overlay {
     display: none;
-    position: fixed;
-    inset: 0;
-    top: var(--navbar-height, 64px);
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
-    z-index: 48;
-    opacity: 0;
-    transition: opacity 0.3s ease;
 }
 
 .navbar-mobile-menu {
     display: none;
-    position: absolute;
-    /* Using absolute inside fixed nav instead of fixed to flow better */
-    top: 100%;
+    position: fixed;
+    top: 0;
     left: 0;
-    width: 100%;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    border-bottom: var(--glass-border);
-    border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
-    padding: var(--space-4);
-    box-shadow: var(--shadow-xl);
-    z-index: 49;
-    transform: translateY(-20px);
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    z-index: 45;
+    /* Under main navbar so you can press X */
+    padding: calc(var(--navbar-height, 64px) + var(--space-8)) var(--space-6) var(--space-20);
     opacity: 0;
     pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    max-height: calc(100vh - 80px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     overflow-y: auto;
+}
+
+[data-theme='dark'] .navbar-mobile-menu {
+    background: rgba(15, 23, 42, 0.85);
+}
+
+.navbar-mobile-menu.open {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .navbar-mobile-overlay.open {
@@ -660,6 +659,11 @@
 
 /* Mobile Adjustments */
 @media (max-width: 860px) {
+    body {
+        /* Add padding at bottom to prevent bottom nav from covering content */
+        padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    }
+
     .desktop-only {
         display: none !important;
     }

@@ -254,71 +254,73 @@ export default function Navbar() {
                         </button>
                     </div>
 
-                    <button
-                        className="navbar-theme-btn"
-                        onClick={toggleTheme}
-                        aria-label="เปลี่ยนธีม สว่าง/มืด"
-                    >
-                        {theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) ? (
-                            <Sun size={20} />
-                        ) : (
-                            <Moon size={20} />
-                        )}
-                    </button>
+                    <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                        <button
+                            className="navbar-theme-btn"
+                            onClick={toggleTheme}
+                            aria-label="เปลี่ยนธีม สว่าง/มืด"
+                        >
+                            {theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) ? (
+                                <Sun size={20} />
+                            ) : (
+                                <Moon size={20} />
+                            )}
+                        </button>
 
-                    <Link to="/bookmarks" className="navbar-bookmark-btn" aria-label="บุ๊คมาร์ค">
+                        {/* Auth */}
+                        {user ? (
+                            <div className="navbar-profile" ref={profileRef}>
+                                <button
+                                    className="navbar-avatar-btn"
+                                    onClick={() => setShowProfile(!showProfile)}
+                                    aria-label="โปรไฟล์"
+                                >
+                                    {user.photoURL ? (
+                                        <img src={user.photoURL} alt={user.displayName} className="navbar-avatar" />
+                                    ) : (
+                                        <div className="navbar-avatar-placeholder">
+                                            <User size={18} />
+                                        </div>
+                                    )}
+                                </button>
+
+                                {showProfile && (
+                                    <div className="navbar-dropdown navbar-profile-dropdown">
+                                        <div className="navbar-dropdown-header">
+                                            {user.photoURL && (
+                                                <img src={user.photoURL} alt="" className="navbar-dropdown-avatar" />
+                                            )}
+                                            <div className="navbar-dropdown-info">
+                                                <span className="navbar-dropdown-name">{user.displayName || 'ผู้ใช้'}</span>
+                                                <span className="navbar-dropdown-email">{user.email}</span>
+                                            </div>
+                                        </div>
+                                        <div className="navbar-dropdown-divider" />
+                                        <button className="navbar-dropdown-item" onClick={() => { navigate('/profile'); setShowProfile(false); }}>
+                                            <User size={16} />
+                                            โปรไฟล์ของฉัน
+                                        </button>
+                                        <button className="navbar-dropdown-item" onClick={() => { logout(); setShowProfile(false); }}>
+                                            <LogOut size={16} />
+                                            ออกจากระบบ
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <button className="navbar-login-btn" onClick={loginWithGoogle} aria-label="เข้าสู่ระบบ">
+                                <LogIn size={18} />
+                                <span className="navbar-login-text">เข้าสู่ระบบ</span>
+                            </button>
+                        )}
+                    </div>
+
+                    <Link to="/bookmarks" className="navbar-bookmark-btn desktop-only" aria-label="บุ๊คมาร์ค">
                         <Bookmark size={20} />
                         {bookmarks.length > 0 && (
                             <span className="navbar-bookmark-count">{bookmarks.length}</span>
                         )}
                     </Link>
-
-                    {/* Auth */}
-                    {user ? (
-                        <div className="navbar-profile" ref={profileRef}>
-                            <button
-                                className="navbar-avatar-btn"
-                                onClick={() => setShowProfile(!showProfile)}
-                                aria-label="โปรไฟล์"
-                            >
-                                {user.photoURL ? (
-                                    <img src={user.photoURL} alt={user.displayName} className="navbar-avatar" />
-                                ) : (
-                                    <div className="navbar-avatar-placeholder">
-                                        <User size={18} />
-                                    </div>
-                                )}
-                            </button>
-
-                            {showProfile && (
-                                <div className="navbar-dropdown navbar-profile-dropdown">
-                                    <div className="navbar-dropdown-header">
-                                        {user.photoURL && (
-                                            <img src={user.photoURL} alt="" className="navbar-dropdown-avatar" />
-                                        )}
-                                        <div className="navbar-dropdown-info">
-                                            <span className="navbar-dropdown-name">{user.displayName || 'ผู้ใช้'}</span>
-                                            <span className="navbar-dropdown-email">{user.email}</span>
-                                        </div>
-                                    </div>
-                                    <div className="navbar-dropdown-divider" />
-                                    <button className="navbar-dropdown-item" onClick={() => { navigate('/profile'); setShowProfile(false); }}>
-                                        <User size={16} />
-                                        โปรไฟล์ของฉัน
-                                    </button>
-                                    <button className="navbar-dropdown-item" onClick={() => { logout(); setShowProfile(false); }}>
-                                        <LogOut size={16} />
-                                        ออกจากระบบ
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <button className="navbar-login-btn" onClick={loginWithGoogle} aria-label="เข้าสู่ระบบ">
-                            <LogIn size={18} />
-                            <span className="navbar-login-text">เข้าสู่ระบบ</span>
-                        </button>
-                    )}
 
                     <button
                         className="navbar-menu-btn"
@@ -331,10 +333,7 @@ export default function Navbar() {
                 </div>
             </div>
 
-            {/* Mobile Menu Overlay */}
-            <div className={`navbar-mobile-overlay ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(false)} />
-
-            {/* Mobile Menu Content */}
+            {/* Mobile Menu Content (Full Screen Overlay) */}
             <div className={`navbar-mobile-menu ${isOpen ? 'open' : ''}`}>
                 <div className="mobile-menu-inner">
                     {navLinks.map((link, idx) => (
@@ -369,6 +368,6 @@ export default function Navbar() {
                     ))}
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 }
