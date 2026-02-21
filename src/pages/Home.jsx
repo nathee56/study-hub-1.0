@@ -1,4 +1,6 @@
+import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
     FileText, BookOpen, Wrench, GraduationCap,
     Link2, Users, ArrowRight, Sparkles,
@@ -12,6 +14,7 @@ import prompts from '../data/prompts';
 import subjectsList from '../data/subjects';
 import tools from '../data/tools';
 import { whatsNew } from '../data/resources';
+import { useScrollReveal, useMagneticEffect } from '../utils/animations';
 import './Home.css';
 
 const quickAccess = [
@@ -32,11 +35,44 @@ const typeIcons = {
 export default function Home() {
     const featuredPrompts = prompts.filter(p => p.isFeatured);
 
+    // Simulate App Loading for Skeleton Effect
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        // Mock a 1.2 second network payload before swapping to real data
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1200);
+        return () => clearTimeout(timer);
+    }, []);
+
+    // Scroll reveal hooks for each section
+    const { ref: qaRef, isRevealed: qaRevealed } = useScrollReveal();
+    const { ref: featRef, isRevealed: featRevealed } = useScrollReveal();
+    const { ref: learnRef, isRevealed: learnRevealed } = useScrollReveal();
+    const { ref: toolRef, isRevealed: toolRevealed } = useScrollReveal();
+    const { ref: examRef, isRevealed: examRevealed } = useScrollReveal();
+    const { ref: newsRef, isRevealed: newsRevealed } = useScrollReveal();
+
+    // Magnetic Button Ref
+    const magneticBtnRef = useRef(null);
+    useMagneticEffect(magneticBtnRef, 0.4);
+
+    const fadeInUp = {
+        hidden: { opacity: 0, y: 40 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+    };
+
     return (
         <div className="home-page">
             {/* Hero */}
             <section className="hero-section" id="hero">
-                <div className="container hero-content">
+                <motion.div
+                    className="container hero-content"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                >
                     <span className="hero-badge">
                         <Zap size={14} /> ศูนย์รวมการเรียนรู้
                     </span>
@@ -65,30 +101,48 @@ export default function Home() {
                             <span>เครื่องมือ</span>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* Quick Access */}
             <section className="section" id="quick-access">
-                <div className="container">
+                <motion.div
+                    className="container"
+                    ref={qaRef}
+                    initial="hidden"
+                    animate={qaRevealed ? "visible" : "hidden"}
+                    variants={fadeInUp}
+                >
                     <h2 className="section-title">เข้าถึงด่วน</h2>
                     <p className="section-subtitle">เข้าถึงทุกส่วนได้ในคลิกเดียว</p>
-                    <div className="quick-access-grid">
-                        {quickAccess.map(item => (
-                            <Link key={item.label} to={item.link} className="quick-access-item card" id={`qa-${item.label}`}>
-                                <div className="quick-access-icon" style={{ background: `${item.color}12`, color: item.color }}>
-                                    <item.icon size={24} />
-                                </div>
-                                <span className="quick-access-label">{item.label}</span>
-                            </Link>
-                        ))}
+                    <div className="bento-grid">
+                        {quickAccess.map((item, index) => {
+                            // Creates an asymmetrical look (e.g. some boxes are wide span 8, some span 4)
+                            const isWide = index === 0 || index === 3;
+                            const itemClass = `quick-access-item card bento-item ${isWide ? 'wide' : ''}`;
+
+                            return (
+                                <Link key={item.label} to={item.link} className={itemClass} id={`qa-${item.label}`}>
+                                    <div className="quick-access-icon" style={{ background: `${item.color}12`, color: item.color }}>
+                                        <item.icon size={24} />
+                                    </div>
+                                    <span className="quick-access-label">{item.label}</span>
+                                </Link>
+                            );
+                        })}
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* Featured Prompts */}
             <section className="section section-alt" id="featured-prompts">
-                <div className="container">
+                <motion.div
+                    className="container"
+                    ref={featRef}
+                    initial="hidden"
+                    animate={featRevealed ? "visible" : "hidden"}
+                    variants={fadeInUp}
+                >
                     <div className="section-header">
                         <div>
                             <h2 className="section-title">Prompt แนะนำ</h2>
@@ -99,18 +153,35 @@ export default function Home() {
                         </Link>
                     </div>
                     <div className="prompt-scroll">
-                        {featuredPrompts.map(p => (
-                            <div key={p.id} className="prompt-scroll-item">
-                                <PromptCard prompt={p} />
-                            </div>
-                        ))}
+                        {isLoading
+                            ? Array.from({ length: 3 }).map((_, i) => (
+                                <div key={`skeleton-prompt-${i}`} className="prompt-scroll-item">
+                                    <div className="card skeleton" style={{ height: '180px', width: '300px' }}>
+                                        <div className="skeleton-title" style={{ width: '50%', margin: '20px' }} />
+                                        <div className="skeleton-text" style={{ width: '80%', margin: '0 20px 10px' }} />
+                                        <div className="skeleton-text" style={{ width: '60%', margin: '0 20px' }} />
+                                    </div>
+                                </div>
+                            ))
+                            : featuredPrompts.map(p => (
+                                <div key={p.id} className="prompt-scroll-item">
+                                    <PromptCard prompt={p} />
+                                </div>
+                            ))
+                        }
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* Learning Categories */}
             <section className="section" id="learning-categories">
-                <div className="container">
+                <motion.div
+                    className="container"
+                    ref={learnRef}
+                    initial="hidden"
+                    animate={learnRevealed ? "visible" : "hidden"}
+                    variants={fadeInUp}
+                >
                     <div className="section-header">
                         <div>
                             <h2 className="section-title">หมวดหมู่การเรียน</h2>
@@ -120,17 +191,35 @@ export default function Home() {
                             สำรวจ <ArrowRight size={16} />
                         </Link>
                     </div>
-                    <div className="subjects-grid">
-                        {subjectsList.map(s => (
-                            <SubjectCard key={s.id} subject={s} />
-                        ))}
+                    <div className="marquee-container">
+                        <div className="marquee-track">
+                            {isLoading
+                                ? Array.from({ length: 8 }).map((_, i) => (
+                                    <div key={`skeleton-subject-${i}`} className="card skeleton" style={{ height: '140px', width: '250px', flexShrink: 0 }}>
+                                        <div className="skeleton-avatar" style={{ margin: '20px' }} />
+                                        <div className="skeleton-text" style={{ width: '60%', margin: '0 20px 10px' }} />
+                                        <div className="skeleton-text" style={{ width: '40%', margin: '0 20px' }} />
+                                    </div>
+                                ))
+                                : [...subjectsList, ...subjectsList].map((s, idx) => (
+                                    <div key={`${s.id}-${idx}`} style={{ width: '250px', flexShrink: 0 }}>
+                                        <SubjectCard subject={s} />
+                                    </div>
+                                ))}
+                        </div>
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* Study Tools */}
             <section className="section section-alt" id="study-tools">
-                <div className="container">
+                <motion.div
+                    className="container"
+                    ref={toolRef}
+                    initial="hidden"
+                    animate={toolRevealed ? "visible" : "hidden"}
+                    variants={fadeInUp}
+                >
                     <div className="section-header">
                         <div>
                             <h2 className="section-title">เครื่องมือการเรียน</h2>
@@ -140,17 +229,39 @@ export default function Home() {
                             ทั้งหมด <ArrowRight size={16} />
                         </Link>
                     </div>
-                    <div className="tools-grid">
-                        {tools.map(t => (
-                            <ToolCard key={t.id} tool={t} />
-                        ))}
+                    <div className="marquee-container">
+                        <div className="marquee-track" style={{ animationDirection: 'reverse' }}>
+                            {isLoading
+                                ? Array.from({ length: 8 }).map((_, i) => (
+                                    <div key={`skeleton-tool-${i}`} className="card skeleton" style={{ height: '120px', width: '300px', flexShrink: 0 }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
+                                            <div className="skeleton-avatar" style={{ width: '40px', height: '40px', marginRight: '15px' }} />
+                                            <div style={{ flex: 1 }}>
+                                                <div className="skeleton-text" style={{ width: '70%', marginBottom: '8px' }} />
+                                                <div className="skeleton-text" style={{ width: '50%' }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                                : [...tools, ...tools].map((t, idx) => (
+                                    <div key={`${t.id}-${idx}`} style={{ width: '300px', flexShrink: 0 }}>
+                                        <ToolCard tool={t} />
+                                    </div>
+                                ))}
+                        </div>
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* Exam Mode Banner */}
             <section className="section" id="exam-banner">
-                <div className="container">
+                <motion.div
+                    className="container"
+                    ref={examRef}
+                    initial="hidden"
+                    animate={examRevealed ? "visible" : "hidden"}
+                    variants={fadeInUp}
+                >
                     <div className="exam-banner card">
                         <div className="exam-banner-content">
                             <span className="exam-banner-badge">
@@ -160,7 +271,7 @@ export default function Home() {
                             <p className="exam-banner-desc">
                                 เข้าถึงข้อสอบเก่า แบบทดสอบ และแบบฝึกหัด เข้าโหมดสอบเพื่อทบทวนอย่างมีสมาธิ
                             </p>
-                            <Link to="/exam" className="btn btn-primary btn-lg">
+                            <Link to="/exam" className="btn btn-primary btn-lg magnetic-btn" ref={magneticBtnRef}>
                                 เข้าโซนสอบ <ArrowRight size={18} />
                             </Link>
                         </div>
@@ -177,12 +288,18 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* What's New */}
             <section className="section section-alt" id="whats-new">
-                <div className="container">
+                <motion.div
+                    className="container"
+                    ref={newsRef}
+                    initial="hidden"
+                    animate={newsRevealed ? "visible" : "hidden"}
+                    variants={fadeInUp}
+                >
                     <div className="section-header">
                         <div>
                             <h2 className="section-title">มีอะไรใหม่</h2>
@@ -206,7 +323,7 @@ export default function Home() {
                             </Link>
                         ))}
                     </div>
-                </div>
+                </motion.div>
             </section>
         </div>
     );

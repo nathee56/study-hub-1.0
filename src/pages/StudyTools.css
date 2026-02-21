@@ -1,63 +1,189 @@
+/* ============================================
+   Tools Hub App Store Style
+   ============================================ */
+
 .tools-header {
     text-align: center;
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-8);
 }
 
-.tools-hub-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-6);
+.tools-hub-container {
     max-width: 800px;
     margin: 0 auto;
-}
-
-.tool-hub-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: var(--space-4);
+    gap: var(--space-8);
+}
+
+/* Featured Tool */
+.featured-tool-card {
+    position: relative;
+    display: block;
     padding: var(--space-8);
+    overflow: hidden;
     text-decoration: none;
     color: inherit;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
 }
 
-.tool-hub-card:hover {
-    color: inherit;
+.featured-tool-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
 }
 
-.tool-hub-icon {
+.featured-tool-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+@media (min-width: 640px) {
+    .featured-tool-content {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-8);
+    }
+}
+
+.featured-tool-icon-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 72px;
-    height: 72px;
-    border-radius: var(--radius-xl);
+    width: 96px;
+    height: 96px;
+    border-radius: var(--radius-2xl);
+    flex-shrink: 0;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
-.tool-hub-title {
-    font-size: var(--font-size-lg);
+.featured-tool-text {
+    flex: 1;
+}
+
+.featured-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(245, 158, 11, 0.1);
+    color: #F59E0B;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+}
+
+.featured-tool-title {
+    font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-2);
     color: var(--color-text-primary);
 }
 
-.tool-hub-desc {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
+.featured-tool-desc {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-base);
     line-height: var(--line-height-relaxed);
+    max-width: 500px;
 }
 
-.tool-hub-link {
-    display: inline-flex;
+.featured-tool-bg-blob {
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.1;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* App Store Grid */
+.regular-tools-section h2 {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.app-store-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-4);
+}
+
+.app-store-card {
+    display: flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: var(--space-4);
+    padding: var(--space-4);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+}
+
+.app-store-card:hover {
+    background: var(--color-bg-alt);
+    transform: translateY(-2px);
+}
+
+.app-store-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+}
+
+.app-store-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.app-store-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+.app-store-desc {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.app-store-action {
+    flex-shrink: 0;
+}
+
+.app-store-btn {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(37, 99, 235, 0.1);
     color: var(--color-primary);
+    border-radius: var(--radius-full);
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.app-store-card:hover .app-store-btn {
+    background: var(--color-primary);
+    color: white;
 }
 
 @media (max-width: 600px) {
-    .tools-hub-grid {
+    .app-store-grid {
         grid-template-columns: 1fr;
     }
 }

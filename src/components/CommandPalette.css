@@ -1,0 +1,204 @@
+.command-palette-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 15vh;
+    animation: fadeIn 0.15s ease-out;
+}
+
+.command-palette-modal {
+    width: 90%;
+    max-width: 600px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+[data-theme='light'] .command-palette-modal {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.command-palette-header {
+    display: flex;
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    gap: var(--space-3);
+}
+
+.command-search-icon {
+    color: var(--color-text-muted);
+}
+
+.command-search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+    font-family: inherit;
+}
+
+.command-search-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.command-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-muted);
+    letter-spacing: 0.5px;
+}
+
+.command-palette-body {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: var(--space-2);
+}
+
+/* Custom Scrollbar for Command Palette */
+.command-palette-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.command-palette-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.command-palette-body::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 10px;
+}
+
+.command-empty-state {
+    padding: var(--space-6);
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.command-results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.command-result-item {
+    display: flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-3);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.1s;
+    gap: var(--space-4);
+}
+
+.command-result-item:hover,
+.command-result-item.active {
+    background: var(--color-bg-alt);
+}
+
+.command-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.command-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.command-item-title {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.command-item-type {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    letter-spacing: 0.5px;
+}
+
+.command-item-arrow {
+    color: var(--color-text-muted);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.2s ease;
+}
+
+.command-result-item.active .command-item-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--color-primary);
+}
+
+.command-palette-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-5);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    font-size: 11px;
+    color: var(--color-text-muted);
+}
+
+.command-footer-hint {
+    display: flex;
+    gap: var(--space-4);
+}
+
+.command-footer-hint kbd {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.command-footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}

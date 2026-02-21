@@ -8,13 +8,13 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg', 'logo.png'],
       manifest: {
         name: 'StudyHub ศูนย์รวมการเรียนรู้',
         short_name: 'StudyHub',
         description: 'ศูนย์รวมการเรียนรู้สำหรับนักเรียน — รวม Prompt, แหล่งเรียนรู้ และเครื่องมือการเรียนไว้ในที่เดียว',
-        theme_color: '#2563EB',
-        background_color: '#FAFBFC',
+        theme_color: '#000000',
+        background_color: '#000000',
         display: 'standalone',
         icons: [
           {
