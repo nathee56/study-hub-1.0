@@ -339,6 +339,11 @@ select {
   white-space: nowrap;
 }
 
+.btn:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
 .btn-primary {
   background: var(--color-primary);
   color: var(--color-white);
@@ -406,6 +411,11 @@ select {
   background: rgba(30, 41, 59, 0.65);
   /* More vibrant dark mode hover */
   border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.card:active {
+  transform: scale(0.97) translateY(0);
+  transition: transform 0.1s ease;
 }
 
 /* ============================================

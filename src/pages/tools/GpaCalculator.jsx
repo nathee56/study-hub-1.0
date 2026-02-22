@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Calculator, Plus, Trash2, RotateCcw, Target } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, RotateCcw, Target, BarChart2 } from 'lucide-react';
 import './GpaCalculator.css';
 
 const GRADES = [
@@ -42,6 +42,13 @@ export default function GpaCalculator() {
     const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : '0.00';
     const gpaProgress = (gpa / 4.0) * 100;
 
+    // Calculate Grade Distribution
+    const gradeDistribution = GRADES.map(g => {
+        const count = courses.filter(c => c.grade === g.label).length;
+        return { ...g, count };
+    });
+    const maxGradeCount = Math.max(...gradeDistribution.map(g => g.count), 1); // Avoid division by zero
+
     // Animation Effect for GPA Number
     useEffect(() => {
         const target = parseFloat(gpa);
@@ -73,53 +80,96 @@ export default function GpaCalculator() {
 
                 <div className="gpa-wrapper">
                     <div className="gpa-header-text">
-                        <h1 className="page-title text-2xl">เครื่องคิดเลข GPA อัจฉริยะ</h1>
-                        <p className="text-muted">คำนวณเกรดเฉลี่ยรายภาคแบบเรียลไทม์ วางแผนเกรดที่ตั้งเป้าไว้ได้ง่ายๆ</p>
+                        <h1 className="page-title text-2xl">เครื่องคิดเลข GPA 3D</h1>
+                        <p className="text-muted">คำนวณและวิเคราะห์เกรดของคุณแบบเรียลไทม์ ด้วยกราฟิก 3 มิติ</p>
                     </div>
 
                     <div className="gpa-dashboard-layout">
                         {/* Result Chart Card */}
-                        <div className="gpa-result-card card">
-                            <h3 className="result-card-title"><Target size={18} /> ผลการเรียนสะสม</h3>
+                        <div className="gpa-charts-column">
+                            <div className="gpa-result-card liquid-card">
+                                <h3 className="result-card-title"><Target size={18} /> เกรดเฉลี่ยสะสม</h3>
 
-                            <div className="gpa-chart-container">
-                                <svg viewBox="0 0 200 200" className="gpa-circular-chart">
-                                    {/* Background Track */}
-                                    <circle cx="100" cy="100" r="85" className="gpa-chart-bg" />
-                                    {/* Progress Arc */}
-                                    <circle
-                                        cx="100" cy="100" r="85"
-                                        className="gpa-chart-progress"
-                                        stroke={gpaColor}
-                                        strokeDasharray={`${2 * Math.PI * 85}`}
-                                        strokeDashoffset={`${2 * Math.PI * 85 * (1 - gpaProgress / 100)}`}
-                                    />
-                                </svg>
-                                <div className="gpa-inner-content">
-                                    <div className="gpa-value-display" style={{ color: gpaColor }}>
-                                        {animatedGpa.toFixed(2)}
+                                <div className="gpa-chart-container">
+                                    <div className="gpa-chart-3d-shadow"></div>
+                                    <svg viewBox="0 0 200 200" className="gpa-circular-chart">
+                                        <defs>
+                                            <linearGradient id="gpaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stopColor={gpaColor} />
+                                                <stop offset="100%" stopColor={gpaColor} stopOpacity="0.5" />
+                                            </linearGradient>
+                                            <filter id="glow">
+                                                <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
+                                                <feMerge>
+                                                    <feMergeNode in="coloredBlur" />
+                                                    <feMergeNode in="SourceGraphic" />
+                                                </feMerge>
+                                            </filter>
+                                        </defs>
+
+                                        {/* Background Track 3D effect */}
+                                        <circle cx="100" cy="100" r="85" className="gpa-chart-bg-inner" />
+                                        <circle cx="100" cy="100" r="85" className="gpa-chart-bg" />
+
+                                        {/* Progress Arc */}
+                                        <circle
+                                            cx="100" cy="100" r="85"
+                                            className="gpa-chart-progress"
+                                            stroke="url(#gpaGradient)"
+                                            filter="url(#glow)"
+                                            strokeDasharray={`${2 * Math.PI * 85}`}
+                                            strokeDashoffset={`${2 * Math.PI * 85 * (1 - gpaProgress / 100)}`}
+                                        />
+                                    </svg>
+                                    <div className="gpa-inner-content">
+                                        <div className="gpa-value-display" style={{ color: gpaColor }}>
+                                            {animatedGpa.toFixed(2)}
+                                        </div>
+                                        <div className="gpa-max-value">/ 4.00</div>
                                     </div>
-                                    <div className="gpa-max-value">/ 4.00</div>
+                                </div>
+
+                                <div className="gpa-stats-row">
+                                    <div className="gpa-stat-box glass-stat">
+                                        <span className="stat-label">หน่วยกิตรวม</span>
+                                        <span className="stat-value">{totalCredits}</span>
+                                    </div>
+                                    <div className="gpa-stat-box glass-stat">
+                                        <span className="stat-label">แต้มสะสม</span>
+                                        <span className="stat-value">{totalPoints.toFixed(1)}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="gpa-stats-row">
-                                <div className="gpa-stat-box">
-                                    <span className="stat-label">หน่วยกิตรวม</span>
-                                    <span className="stat-value">{totalCredits}</span>
-                                </div>
-                                <div className="gpa-stat-box">
-                                    <span className="stat-label">แต้มสะสม</span>
-                                    <span className="stat-value">{totalPoints.toFixed(1)}</span>
+                            {/* Distribution Bar Chart */}
+                            <div className="gpa-distribution-card liquid-card mt-4">
+                                <h3 className="result-card-title"><BarChart2 size={18} /> สัดส่วนเกรด</h3>
+                                <div className="gpa-bar-chart">
+                                    {gradeDistribution.map(g => (
+                                        <div key={g.label} className="gpa-bar-item group">
+                                            <div className="gpa-bar-label">{g.label}</div>
+                                            <div className="gpa-bar-track">
+                                                <div
+                                                    className="gpa-bar-fill"
+                                                    style={{
+                                                        height: `${(g.count / maxGradeCount) * 100}%`,
+                                                        backgroundColor: g.color
+                                                    }}
+                                                >
+                                                    {g.count > 0 && <span className="gpa-bar-count">{g.count}</span>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
 
                         {/* Courses List */}
-                        <div className="gpa-courses card">
+                        <div className="gpa-courses liquid-card">
                             <div className="gpa-courses-header">
                                 <h2 className="gpa-courses-title">รายวิชาเรียน</h2>
-                                <button className="btn btn-secondary btn-sm" onClick={resetAll}>
+                                <button className="btn btn-secondary btn-sm glass-btn" onClick={resetAll}>
                                     <RotateCcw size={14} /> เริ่มใหม่
                                 </button>
                             </div>
@@ -133,21 +183,21 @@ export default function GpaCalculator() {
 
                             <div className="gpa-courses-list">
                                 {courses.map((course) => (
-                                    <div key={course.id} className="gpa-course-row">
+                                    <div key={course.id} className="gpa-course-row glass-row">
                                         <div className="gpa-input-group">
                                             <input
                                                 type="text"
                                                 placeholder="ชื่อวิชา (ไม่บังคับ)"
                                                 value={course.name}
                                                 onChange={e => updateCourse(course.id, 'name', e.target.value)}
-                                                className="gpa-course-name"
+                                                className="gpa-course-name glass-input"
                                             />
                                         </div>
                                         <div className="gpa-select-wrapper">
                                             <select
                                                 value={course.credits}
                                                 onChange={e => updateCourse(course.id, 'credits', Number(e.target.value))}
-                                                className="gpa-course-credits"
+                                                className="gpa-course-credits glass-input"
                                             >
                                                 {[1, 2, 3, 4, 5, 6].map(c => (
                                                     <option key={c} value={c}>{c}</option>
@@ -158,7 +208,7 @@ export default function GpaCalculator() {
                                             <select
                                                 value={course.grade}
                                                 onChange={e => updateCourse(course.id, 'grade', e.target.value)}
-                                                className="gpa-course-grade"
+                                                className="gpa-course-grade glass-input"
                                                 style={{
                                                     color: GRADES.find(g => g.label === course.grade)?.color,
                                                     fontWeight: 'bold'
@@ -183,11 +233,11 @@ export default function GpaCalculator() {
                     </div>
 
                     {/* Grade Scale */}
-                    <div className="gpa-scale card">
+                    <div className="gpa-scale liquid-card">
                         <h3 className="gpa-scale-title">ระบบหน่วยกิตอ้างอิง</h3>
                         <div className="gpa-scale-grid">
                             {GRADES.map(g => (
-                                <div key={g.label} className="gpa-scale-item" style={{ borderLeftColor: g.color }}>
+                                <div key={g.label} className="gpa-scale-item glass-scale-item" style={{ borderLeftColor: g.color }}>
                                     <span className="gpa-scale-label" style={{ color: g.color }}>{g.label}</span>
                                     <span className="gpa-scale-value">{g.value.toFixed(1)}</span>
                                 </div>

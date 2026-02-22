@@ -14,6 +14,44 @@ export function TodoProvider({ children }) {
     const { user } = useAuth();
     const [synced, setSynced] = useState(false);
 
+    // Notification permission status
+    const [notificationPermission, setNotificationPermission] = useState('default');
+
+    useEffect(() => {
+        if ('Notification' in window) {
+            setNotificationPermission(Notification.permission);
+        }
+    }, []);
+
+    const requestNotificationPermission = async () => {
+        if (!('Notification' in window)) return false;
+        try {
+            const permission = await Notification.requestPermission();
+            setNotificationPermission(permission);
+            return permission === 'granted';
+        } catch (e) {
+            console.error('Error requesting notification permission:', e);
+            return false;
+        }
+    };
+
+    const scheduleNotification = (text, dueDate) => {
+        if (notificationPermission !== 'granted' || !dueDate) return;
+
+        const timeToDue = new Date(dueDate).getTime() - new Date().getTime();
+        // Warn 1 hour before due date
+        const warnTime = timeToDue - (60 * 60 * 1000);
+
+        if (warnTime > 0) {
+            setTimeout(() => {
+                new Notification('StudyHub Planner: ใกล้ถึงกำหนดส่ง!', {
+                    body: `งาน "${text}" กำลังจะถึงกำหนดในอีก 1 ชั่วโมง`,
+                    icon: '/study-hub-1.0/vite.svg'
+                });
+            }, warnTime);
+        }
+    };
+
     // Load from Firestore when user logs in
     useEffect(() => {
         if (user && !synced) {
@@ -26,7 +64,7 @@ export function TodoProvider({ children }) {
             });
         }
         if (!user) setSynced(false);
-    }, [user]);
+    }, [user, synced]);
 
     const saveTodos = useCallback((newTodos) => {
         setTodos(newTodos);
@@ -36,15 +74,21 @@ export function TodoProvider({ children }) {
         }
     }, [user]);
 
-    const addTodo = (text, priority = 'ปานกลาง') => {
+    const addTodo = (text, priority = 'ปานกลาง', dueDate = null) => {
+        const id = Date.now().toString();
         const updated = [...todos, {
-            id: Date.now().toString(),
+            id,
             text,
             completed: false,
             priority,
+            dueDate,
             createdAt: new Date().toISOString()
         }];
         saveTodos(updated);
+
+        if (dueDate) {
+            scheduleNotification(text, dueDate);
+        }
     };
 
     const toggleTodo = (id) => {
@@ -55,8 +99,8 @@ export function TodoProvider({ children }) {
         saveTodos(todos.filter(t => t.id !== id));
     };
 
-    const editTodo = (id, text) => {
-        saveTodos(todos.map(t => t.id === id ? { ...t, text } : t));
+    const editTodo = (id, text, dueDate = null) => {
+        saveTodos(todos.map(t => t.id === id ? { ...t, text, dueDate: dueDate !== null ? dueDate : t.dueDate } : t));
     };
 
     const clearCompleted = () => {
@@ -64,7 +108,10 @@ export function TodoProvider({ children }) {
     };
 
     return (
-        <TodoContext.Provider value={{ todos, addTodo, toggleTodo, deleteTodo, editTodo, clearCompleted }}>
+        <TodoContext.Provider value={{
+            todos, addTodo, toggleTodo, deleteTodo, editTodo, clearCompleted,
+            notificationPermission, requestNotificationPermission
+        }}>
             {children}
         </TodoContext.Provider>
     );

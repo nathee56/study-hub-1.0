@@ -26,7 +26,7 @@ export default function Profile() {
             setExamHistory(data.sort((a, b) => new Date(b.date) - new Date(a.date)));
             setLoading(false);
         });
-    }, [user]);
+    }, [user, navigate]);
 
     if (!user) return null;
 

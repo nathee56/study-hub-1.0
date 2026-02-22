@@ -50,14 +50,15 @@ export function useScrollReveal(options = { threshold: 0.1, rootMargin: '0px 0px
             }
         }, options);
 
-        if (ref.current) {
-            observer.observe(ref.current);
+        const element = ref.current;
+        if (element) {
+            observer.observe(element);
         }
 
         return () => {
-            if (ref.current) observer.unobserve(ref.current);
+            if (element) observer.unobserve(element);
         };
-    }, []);
+    }, [options]);
 
     return { ref, isRevealed };
 }
@@ -110,10 +111,6 @@ export function useTiltEffect(ref, options = { max: 15, perspective: 1000, scale
 
         // Apply initial perspective
         element.style.transformStyle = "preserve-3d";
-
-        // Find or create an inner wrapper for the content to apply translation
-        // If it doesn't exist, we just rely on the parent wrapper tilt
-        const innerContent = element.querySelector('.tilt-content') || element;
 
         const handleMouseMove = (e) => {
             const { left, top, width, height } = element.getBoundingClientRect();
